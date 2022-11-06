@@ -2,19 +2,20 @@ import java.lang.Integer;
 import java.util.Stack;
 public class Tree {
     public Node root;
+    private int inputIndex = 0;
     public Stack<Node> expressionTree = new Stack<Node>();
     public Tree() {
         root = null;
     }
-    public int calculator(OperatorNode n) {
+    public double calculator(OperatorNode n) {
         if (n.data == null) {
             return Integer.MIN_VALUE;
         }
         if (n.leftKid == null || n.rightKid == null) {
             return Integer.MIN_VALUE;
         }
-        int leftValue;
-        int rightValue;
+        double leftValue;
+        double rightValue;
         if (n.leftKid instanceof OperatorNode) {
             leftValue = calculator((OperatorNode) n.leftKid);
         } else {
@@ -25,50 +26,38 @@ public class Tree {
         } else {
             rightValue = ((NumberNode) n.rightKid).data;
         }
-
         if (n.data.equals("+")) {
             return leftValue + rightValue;
         }
         if (n.data.equals("-")) {
-            return leftValue - rightValue;
+            return rightValue - leftValue;
         }
         if (n.data.equals("*")) {
             return leftValue * rightValue;
         }
-            return leftValue / rightValue;
+            return  rightValue /leftValue;
     }
-    public int calculator() {
+    public double calculator() {
         return calculator((OperatorNode) this.root);
     }
-    public void parser(String[] s) {
-        for (int i = 0; i < s.length; i++) {
-            if (!isOperator(s[i])) {
-                NumberNode temp = new NumberNode(i);
-                if (!expressionTree.isEmpty()) {
-                    Node top = expressionTree.pop();
-                    if (i == s.length - 1) {
-                      top.rightKid = temp;
-                      expressionTree.push(top);
-                      return;
-                    }
-                    OperatorNode dummy = new OperatorNode(s[i + 1]);
-                    if (top.precedence >= dummy.precedence) {
-                        top.rightKid = temp;
-                        expressionTree.push(top);
-                    } else {
-                        expressionTree.push(top);
-                        expressionTree.push(temp);
-                    }
-                } else {
-                    expressionTree.push(temp);
-                }
-            } else {
-                Node temp = expressionTree.pop();
-                OperatorNode temporary = new OperatorNode(s[i]);
-                temporary.leftKid = temp;
-                expressionTree.push(temporary);
-            }
+    public Node parser(String[] input) {
+        Node curroot = new Node();
+        if (!"+-*/".contains(input[inputIndex])) {
+            curroot = new NumberNode(Double.parseDouble(input[inputIndex]));
+            // NumberNode temp = (NumberNode) curroot;
+            // System.out.println( temp.data);
+            this.inputIndex++;
+            return curroot;
         }
+        curroot = new OperatorNode(input[inputIndex]);
+        this.inputIndex++;
+        curroot.leftKid = parser(input);
+        curroot.rightKid = parser(input);
+        return curroot;
+    }
+    public String toString() {
+        Node t = this.root;
+        return t.toString();
     }
     public boolean isOperator(String s) {
         String operators = "+-*/";

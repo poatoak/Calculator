@@ -16,4 +16,7 @@ public class OperatorNode extends Node {
             rightKid = n;
         }
     }
+    public String toString() {
+        return this.data + " kids: "  + (this.leftKid == null? "no lk": this.leftKid.toString()) + "," + (this.rightKid == null? "no rk":this.rightKid.toString());
+    }
 }
