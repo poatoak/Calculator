@@ -1,5 +1,6 @@
 public class NumberNode extends Node{
     double data;
+    boolean isOperator = false;
     public NumberNode(double i){
         data = i;
         precedence = 1;
@@ -7,5 +8,6 @@ public class NumberNode extends Node{
     public String toString() {
         return this.data + " kids: "  + (this.leftKid == null? "no lk": this.leftKid.toString()) + "," + (this.rightKid == null? "no rk":this.rightKid.toString());
     }
+    
 }
 

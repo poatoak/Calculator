@@ -1,5 +1,6 @@
 public class OperatorNode extends Node {
     String data;
+    boolean isOperator = true;
     public OperatorNode(String str){
         data = str;
         String plusOrMinus = "+-";
@@ -19,4 +20,5 @@ public class OperatorNode extends Node {
     public String toString() {
         return this.data + " kids: "  + (this.leftKid == null? "no lk": this.leftKid.toString()) + "," + (this.rightKid == null? "no rk":this.rightKid.toString());
     }
+
 }

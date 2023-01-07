@@ -3,32 +3,60 @@ import java.util.Scanner;
 import java.util.Stack;
 public class App {
     public static void main(String[] args) throws Exception {
-        DecimalFormat format = new DecimalFormat("#.#########################################");
         Tree tree = new Tree();
         Scanner scnr = new Scanner(System.in);
-        // boolean valid = false;
-        String input = "";
-        // while (!valid) {
-        input = scnr.nextLine();
-        String[] data = input.split(" ");
-        data = reverse(toPostFix(data));
-        tree.root = tree.parser(data);
-        // String operators = "+-*/";
-            //     if (!operators.contains(input)){
-            //         System.out.println("Input a valid symbol.");
-            //         input = scnr.next();
-            //         continue;
-            //     }
-            // valid = true;
-        // }
-        System.out.println(format.format(tree.calculator()));
-        scnr.close();
+        String input = scnr.nextLine().strip();
+        while(!input.equalsIgnoreCase("e")) {
+            System.out.println(tree.variableMap.keySet().size());
+            //Can't use Variables unless after imediatley declaring
+            DecimalFormat format = new DecimalFormat("#.#########################################");
+            boolean valid = false;
+            String[] data = input.split(" ");
+            data = reverse(toPostFix(data));
+            while (!valid) {
+                for (int i = 0; i < data.length; i++) {
+                    String validInputs = "+-*/%1234567890.=abcdfghijklmnopqrstuvwxyz";
+                    for (int j = 0; j < data[i].length(); j++) {
+                        if (!validInputs.contains(Character.toString(data[i].charAt(j)))) {
+                            break;
+                        }
+                    }
+                    if (i == data.length - 1) {
+                        valid = true;
+                    }
+                }
+                if (valid == false) {
+                    System.out.println("ERROR: NEW INPUT NEEDED");
+                    input = scnr.nextLine();
+                    data = input.split(" ");
+                    data = reverse(toPostFix(data));
+                }
+            }
+            try {
+                if (data[0].equals("=")) {
+                    tree.parser(data);
+                    input = "";
+                    input = scnr.nextLine();
+                    continue;
+                } else {
+                    tree.root = tree.parser(data);
+                }
+            } catch (Exception e) {
+                    System.out.println("ERROR: BAD INPUT");
+                    scnr.close();
+                    return;
+            }
+            System.out.println(format.format(tree.calculator()));
+            input = "";
+            input = scnr.nextLine();
+            }
+            scnr.close();
     }
     public static String[] toPostFix(String[] input) {
         Stack<OperatorNode> operatorStack = new Stack<OperatorNode>();
         String toReturn = "";
         for (int i = 0; i < input.length; i++) {
-            if (!"+-*/".contains(input[i])) {
+            if (!"+-*/%=".contains(input[i])) {
                 toReturn += input[i] + " ";
             } else {
                 OperatorNode temporary = new OperatorNode(input[i]);
@@ -52,15 +80,15 @@ public class App {
         for (int i = 0, j = a.length - 1; i < a.length; i++, j--) {
             newWord[j] = a[i];
             if (newWord[j] == ".") {
-                //Need to add for if it is a 2+ digit before the decimal 32.5213
+                //Need to add for if it is a 2+ digit before the decimal 32.5213 DONE
                 String tempword = "";
                 int l = j - 1;
-                while (!"+-*/".contains(a[l])) {
+                while (!"+-*/%".contains(a[l])) {
                     tempword += a[l];
                     l--;
                 }
                 int k = j + 1;
-                while (!"+-*/".contains(a[k])) {
+                while (!"+-*/%".contains(a[k])) {
                     tempword += a[k];
                     k++;
                 }

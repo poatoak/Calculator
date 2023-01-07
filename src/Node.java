@@ -1,4 +1,5 @@
 public class Node {
+    boolean isOperator;
     Node leftKid;                               
     Node rightKid;
     int precedence;
