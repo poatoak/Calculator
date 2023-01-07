@@ -7,8 +7,6 @@ public class App {
         Scanner scnr = new Scanner(System.in);
         String input = scnr.nextLine().strip();
         while(!input.equalsIgnoreCase("e")) {
-            System.out.println(tree.variableMap.keySet().size());
-            //Can't use Variables unless after imediatley declaring
             DecimalFormat format = new DecimalFormat("#.#########################################");
             boolean valid = false;
             String[] data = input.split(" ");
@@ -49,6 +47,7 @@ public class App {
             System.out.println(format.format(tree.calculator()));
             input = "";
             input = scnr.nextLine();
+            tree.inputIndex = 0;
             }
             scnr.close();
     }

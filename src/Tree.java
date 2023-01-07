@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 public class Tree {
     public Node root;
-    private int inputIndex = 0;
+    public int inputIndex = 0;
     public Stack<Node> expressionTree = new Stack<Node>();
     public Map<String, Double> variableMap = new HashMap<String, Double>();
     public Tree() {
@@ -49,7 +49,6 @@ public class Tree {
     }
     public Node parser(String[] input) {
         Node curroot = new Node();
-        System.out.println(Arrays.toString(input));
         if ("=".equals(input[0])) {
             this.variableMap.put(input[2], Double.parseDouble(input[1]));
             return curroot;
