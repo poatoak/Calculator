@@ -6,7 +6,7 @@ public class NumberNode extends Node{
         precedence = 1;
     }
     public String toString() {
-        return this.data + " kids: "  + (this.leftKid == null? "no lk": this.leftKid.toString()) + "," + (this.rightKid == null? "no rk":this.rightKid.toString());
+        return String.valueOf(this.data);
     }
     
 }

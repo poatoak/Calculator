@@ -45,6 +45,7 @@ public class App {
                     return;
             }
             System.out.println(format.format(tree.calculator()));
+            System.out.println(tree.toString());
             input = "";
             input = scnr.nextLine();
             tree.inputIndex = 0;
